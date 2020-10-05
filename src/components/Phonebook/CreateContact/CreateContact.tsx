@@ -4,9 +4,12 @@ import { Input } from '../../_shared/Input';
 import { Button } from '../../_shared/Button';
 import { PhonebookContext } from '../store/PhonebookContext';
 import { PhonebookActions } from '../store/phonebookReducer';
+import { Notify, useNotify } from '../Notify';
 
 export const CreateContact: React.FC = () => {
     const { contacts, dispatch } = useContext(PhonebookContext);
+
+    const { isShowing, show } = useNotify();
 
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
@@ -35,7 +38,7 @@ export const CreateContact: React.FC = () => {
 
             if (hasDuplicate) {
                 // eslint-disable-next-line no-alert
-                alert(`${prettifiedName} is already in your contacts`);
+                show();
 
                 return;
             }
@@ -48,14 +51,17 @@ export const CreateContact: React.FC = () => {
             setName('');
             setNumber('');
         },
-        [contacts, dispatch],
+        [contacts, show, dispatch],
     );
 
     return (
-        <Box tag="form" autoComplete="off" onSubmit={handleSubmit}>
-            <Input label="Name" name="name" value={name} onChange={handleNameChange} />
-            <Input label="Number" name="number" value={number} onChange={handleNumberChange} />
-            <Button disabled={!name || !number}>Add contact</Button>
-        </Box>
+        <>
+            <Notify isShowing={isShowing}>Contact already exists!</Notify>
+            <Box tag="form" autoComplete="off" onSubmit={handleSubmit}>
+                <Input label="Name" name="name" value={name} onChange={handleNameChange} />
+                <Input label="Number" name="number" value={number} onChange={handleNumberChange} />
+                <Button disabled={!name || !number}>Add contact</Button>
+            </Box>
+        </>
     );
 };

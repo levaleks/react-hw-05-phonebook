@@ -9,6 +9,14 @@ export const SContactsListItem = styled(SBox)`
     > * {
         margin: 0;
     }
+
+    &.enter {
+        animation: 0.25s backInLeft ease;
+    }
+
+    &.exit {
+        animation: 0.25s backOutLeft ease;
+    }
 `;
 
 export const SName = styled.span``;

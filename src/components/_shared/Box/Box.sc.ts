@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 
-export const SBox = styled.div`
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getSBox = (tag: string): StyledComponent<any, any> => styled[tag]`
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -17,3 +18,5 @@ export const SBox = styled.div`
         }
     }
 `;
+
+export const SBox = getSBox('div');
